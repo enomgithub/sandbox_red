@@ -7,10 +7,11 @@ Red [
 ]
 
 make-greet: func [greet [string!] name [string!]] [
-  rejoin [greet " " name "!"]
+  either name = ""
+    [rejoin [greet "!"]]
+    [rejoin [greet " " name "!"]]
 ]
 
-current-greet: "Hello" 
 view/flags [
   size 600x200
   title "Hello World!"
