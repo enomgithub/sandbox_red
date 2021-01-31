@@ -6,5 +6,8 @@ Red [
 ]
 
 view [
-  text "Hello World!"
+  title "Hello World!"
+  label: text "Hello World!"
+  name: field
+  button "greet" [label/text: rejoin ["Hello " name/text "!"]]
 ]
