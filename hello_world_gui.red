@@ -59,14 +59,10 @@ view/flags [
         if color-box/offset/x < 0 [color-box/offset/x: 1]
         if color-box/offset/y > 500 [color-box/offset/y: 500]
         if color-box/offset/y < 0 [color-box/offset/y: 1]
-        if color-box/offset/x <> 1
-          [if color-box/offset/x % step <> 0
-            [color-box/offset/x: color-box/offset/x / step * step]
-          ]
-        if color-box/offset/y <> 1
-          [if (color-box/offset/y % step) <> 0
-            [color-box/offset/y: color-box/offset/y / step * step]
-          ]
+        if (color-box/offset/x <> 1) and (color-box/offset/x % step <> 0)
+          [color-box/offset/x: color-box/offset/x / step * step]
+        if (color-box/offset/y <> 1) and (color-box/offset/y % step <> 0)
+          [color-box/offset/y: color-box/offset/y / step * step]
         color-box/text: mold color-box/offset
       ]
 ] 'resize
