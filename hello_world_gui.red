@@ -13,7 +13,7 @@ make-greet: func [greet [string!] name [string!]] [
 ]
 
 view/flags [
-  size 600x200
+  size 600x600
   title "Hello World!"
   greet-label:
     text
@@ -45,5 +45,18 @@ view/flags [
           make-greet
             pick greet-list/data greet-list/selected
             name/text
+      ]
+  return
+  color-box:
+    box
+      khaki
+      "Drag & Drop"
+      loose
+      on-up [
+        if color-box/offset/x > 520 [color-box/offset/x: 520]
+        if color-box/offset/x < 0 [color-box/offset/x: 1]
+        if color-box/offset/y > 520 [color-box/offset/y: 520]
+        if color-box/offset/y < 0 [color-box/offset/y: 1]
+        color-box/text: mold color-box/offset
       ]
 ] 'resize
