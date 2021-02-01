@@ -6,13 +6,27 @@ Red [
   icon: %hello_world.ico
 ]
 
+#include %config/config.red
+
 make-greet: func [greet [string!] name [string!]] [
   either name = ""
     [rejoin [greet "!"]]
     [rejoin [greet " " name "!"]]
 ]
 
-step: 50
+move-by-step: func [offset [integer!] step [integer!]] [ 
+  if (offset % step) <> 0 [
+    either (offset % step) < (step / 2) [
+      offset / step * step
+    ] [
+      (offset / step + 1) * step
+    ]
+  ]
+]
+
+clamp: func [value [integer!] min-value [integer!] max-value [integer!]] [
+  max min-value (min value max-value)
+]
 
 view/flags [
   size 600x600
@@ -49,20 +63,40 @@ view/flags [
             name/text
       ]
   return
-  color-box:
+  color-box-kahki:
     box
       khaki
       "Drag & Drop"
       loose
       on-up [
-        if color-box/offset/x > 500 [color-box/offset/x: 500]
-        if color-box/offset/x < 0 [color-box/offset/x: 1]
-        if color-box/offset/y > 500 [color-box/offset/y: 500]
-        if color-box/offset/y < 0 [color-box/offset/y: 1]
-        if (color-box/offset/x <> 1) and (color-box/offset/x % step <> 0)
-          [color-box/offset/x: color-box/offset/x / step * step]
-        if (color-box/offset/y <> 1) and (color-box/offset/y % step <> 0)
-          [color-box/offset/y: color-box/offset/y / step * step]
-        color-box/text: mold color-box/offset
+        color-box-kahki/offset/x:
+          clamp
+            (move-by-step color-box-kahki/offset/x config/step)
+            config/min-value
+            config/max-value
+        color-box-kahki/offset/y:
+          clamp
+            (move-by-step color-box-kahki/offset/y config/step)
+            config/min-value
+            config/max-value
+        color-box-kahki/text: mold color-box-kahki/offset
+      ]
+  color-box-green:
+    box
+      green
+      "Drag & Drop"
+      loose
+      on-up [
+        color-box-green/offset/x:
+          clamp
+            (move-by-step color-box-green/offset/x config/step)
+            config/min-value
+            config/max-value
+        color-box-green/offset/y:
+          clamp
+            (move-by-step color-box-green/offset/y config/step)
+            config/min-value
+            config/max-value
+        color-box-green/text: mold color-box-green/offset
       ]
 ] 'resize
